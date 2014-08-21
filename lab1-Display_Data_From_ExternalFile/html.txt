@@ -1,0 +1,171 @@
+<?php
+/**
+ *  HTML Class
+ *  The HTML class will be an example of the Singleton pattern (p. 97).
+ *  This class has a method for each HTML tag. We will implement only a few
+ *  to prove how this class will work.
+ */
+
+error_reporting(E_ALL);
+
+$html = HTML::getInstance();
+
+class HTML {
+    static $html = null;
+    static private $instance = null;
+	private $doctype = null;
+    
+    private function __construct($doctype='html4transitional') {
+    }
+    
+    static function getInstance($dtp) {
+        if(is_null(self::$instance)) {
+            self::$instance = new HTML($dtp);
+        }
+        return self::$instance;
+    }
+    
+    function html($data) {
+        return self::$html.'<html>'.$data.'</html>';
+    }
+    function render($data=null) {
+        return self::$html.$this->doctype . 
+          $this->html($this->head() . 
+          $this->body(self::$html . $data));
+    }
+    function head($title = 'Test Class') {
+        return self::$html.'<head><title>'.$title.'</title></head>';
+    }
+
+    function body($data) {
+        return self::$html.'<body>'.$data.'</body>';
+    }
+	function setdoctype($dtype) {
+		switch ($dtype) {
+			case 'html4transitional':
+				 $this->doctype = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+			         "http://www.w3.org/TR/html4/loose.dtd">';
+					break;
+			case 'html4strict':
+				$this->doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+				   "http://www.w3.org/TR/html4/strict.dtd">';
+					break;
+			case 'xhtml1strict':
+				$this->doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+					"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+					break;			
+			case 'xhtml1transitional':
+				$this->doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+					"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+		}		
+	}
+    function doctype($dtype=null) {
+/*
+		switch ($dtype) {
+			case 'html4transitional':
+				 return '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+			         "http://www.w3.org/TR/html4/loose.dtd">';
+					break;
+			case 'html4strict':
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+				   "http://www.w3.org/TR/html4/strict.dtd">';
+					break;
+			case 'xhtml1strict':
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+					"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+					break;			
+			case 'xhtml1transitional':
+				return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+					"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+					break;
+		}
+*/
+			 return '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+		         "http://www.w3.org/TR/html4/loose.dtd">';
+    }
+
+    function table($data) {
+        return self::$html.'<table>'.$data.'</table>';
+    }
+    function tr($data) {
+        return self::$html.'<tr>'.$data.'</tr>';
+    }
+    function td($data) {
+        return self::$html.'<td>'.$data.'</td>';
+    }
+
+	function div($data) {
+        return self::$html.'<div>'.$data.'</div>';
+    }
+	function span($data) {
+        return self::$html.'<span>'.$data.'</span>';
+    }
+	function p($data) {
+        return self::$html.'<p>'.$data.'</p>';
+    }
+	function ul($data) {
+        return self::$html.'<ul>'.$data.'</ul>';
+    }
+	function ol($data) {
+        return self::$html.'<ol>'.$data.'</ol>';
+    }
+
+	function li($data) {
+        return self::$html.'<li>'.$data.'</li>';
+    }
+
+	function li_set($data) {
+		$list = "";
+		for ($i = 0; $i < count($data); $i++) {
+			$list .= '<li>'.$data[$i].'</li>';
+		}	
+        return self::$html.$list;
+    }
+	function br() {	
+        return self::$html.'<br />';
+    }
+	function hr() {	
+        return self::$html.'<hr />';
+    }
+	function blockquote($data) {	
+        return self::$html.'<blockquote>'.$data.'</blockquote>';
+    }
+}
+
+
+$h = HTML::getInstance();
+print $h->render(
+        $h->table(
+        $h->tr(
+        $h->td('This is a table cell')
+        )
+        )
+);
+
+$d = HTML::getInstance();
+print $d->render(
+        $d->div(
+		$d->p(
+		$d->span("This is span inside a p tag inside a div tag")
+		)
+		)
+        );
+
+$l = HTML::getInstance();
+print $l->render(
+        $l->ul(
+			$l->li_set($abc = array ("item1", "item2", "item3") )
+		)
+		. $l->ol(
+			$l->li("itemA") . $l->li("itemB") . $l->li("itemC")
+		)
+		. $l->hr()
+		)
+        ;
+$b = HTML::getInstance();
+print $b->render(
+$b->p(
+	$b->blockquote("This is from blockquote")
+	)
+)
+        ;

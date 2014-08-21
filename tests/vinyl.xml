@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<vinyl>
+ <item author="joe@joe.com">
+ <id>1</id>
+ <sku>abc12345</sku>
+ <name>The Clash</name>
+ <desc>The first release of THE ONLY BAND THAT MATTERS</desc>
+ <price>79.98</price>
+ <qty>4</qty>
+ <status>1</status>
+ <format>33</format>
+ <deleted>0</deleted>
+ <deleted_date>2005-08-14 17:11:06</deleted_date>
+ <created_date>2005-08-14 10:03:03</created_date>
+ <modified_date>2005-08-14 17:11:06</modified_date>
+ <image_path>vinyl/sample.jpg</image_path>
+ <release_date>1977</release_date>
+ <condition>Near Mint</condition>
+ <jacket_condition>Near Mint</jacket_condition>
+ <reverse_image_path>vinyl/notavailable.jpg</reverse_image_path>
+ </item>
+ <item author="joe@joe.com">
+ <id>2</id>
+ <sku>abc12346</sku>
+ <name>Give 'Em Enough Rope</name>
+ <desc>The only album worth owning..</desc>
+ <price>99.98</price>
+ <qty>4</qty>
+ <status>1</status>
+ <format>33</format>
+ <deleted>0</deleted>
+ <deleted_date>2005-08-14 17:10:22</deleted_date>
+ <created_date>2005-08-14 10:04:26</created_date>
+ <modified_date>2005-08-14 17:13:05</modified_date>
+ <image_path>vinyl/give_em_enough_rope.jpg</image_path>
+ <release_date>1977</release_date>
+ <condition>Near Mint</condition>
+ <jacket_condition>Near Mint</jacket_condition>
+ <reverse_image_path>vinyl/notavailable.jpg</reverse_image_path>
+ </item>
+</vinyl>
+

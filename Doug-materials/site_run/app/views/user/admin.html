@@ -1,0 +1,22 @@
+<?php require_once LIB . "library.php"; ?>
+<h1>Admin</h1>
+<table border="1" cell-padding="2" cell-spacing="2">
+  <tr>
+    <?php foreach($this->fields as $f) {
+      if($f == 'id'  || $f == 'created_at') continue;
+      ?>
+  <th><?php echo(ucwords(humanize($f))); ?></th>
+  <?php  } ?>
+</tr>
+<?php foreach($this->users as $user) {
+    print '<tr>';
+    $fields = $user->fields();
+    foreach($fields as $f) {
+        if($f == 'id' ||$f == 'password') continue;
+            print '<td>'.$user->$f.'</td>';
+    }
+    print '</tr>';
+}
+?>
+</table>
+

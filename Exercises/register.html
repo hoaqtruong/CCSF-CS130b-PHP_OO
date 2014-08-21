@@ -1,0 +1,31 @@
+<script type="text/javascript">
+//<![CDATA[
+// cut and paste
+Event.observe(window, 'load', function() {
+      new Form.Element.Observer('user_name-field', 0.2, function(element, value) { 
+         new Ajax.Updater('user_name-valid', '/~dputnam/cs130b/check_user.php?user_name=' + value, 
+            {asynchronous:true, evalScripts:true, onComplete:function(request){ 
+            Element.show('user_name-valid')}, parameters:value})} )}
+      );
+//]]>
+</script>
+
+<?php 
+$fields = array('user_name'=>'text', 'password'=>'password','confirm_password'=>'password','first_name'=>'text','last_name'=>'text','email'=>'text','submit'=>'submit'); 
+
+?>
+<h1>Register</h1>
+
+<fieldset><legend>Registration Form</legend>
+   <form action="?_r=user/register" method="post">
+      <?php foreach($fields as $k => $v) { ?>
+      <div>
+         <label for="<?php echo $k?>"><?php echo humanize($k) ?></label> 
+         <input type="<?php echo $v;?>" name="<?php echo $k;?>" value="<?php echo $v?>" id="<?php echo $k;?>-field" />
+      <?php if($k == 'user_name') { ?>
+      <div id='user_name-valid' style="display:none"></div>
+      <?php } ?>
+      </div>
+      <?php } ?>
+   </form>
+</fieldset>

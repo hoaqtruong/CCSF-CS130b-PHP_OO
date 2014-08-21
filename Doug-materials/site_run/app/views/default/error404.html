@@ -1,0 +1,29 @@
+<h1>Error 404</h1>
+
+<?php if(isset($_SESSION['message'])) : ?>
+<div id="info" style="display:none" ><?php echo message(); ?></div>
+<br />
+<a href="?v=login">Log in</a>
+<?php else: ?>
+The page you requested cannot be found.
+<?php endif; ?>
+<script type="text/javascript">
+//<![CDATA[
+//$(document.body).ready(function(){$('login-container').fadeIn(300);});
+function highlightElement(id) {
+   id = "#"+id;
+   $('#info').css('background-color','goldenrod');
+   $('#info').css('padding','2em');
+   $('#info').css('border', 'solid 4px #f88');
+   $('#info').css('width', '300px');
+   $('#info').fadeIn(500, function() {
+        $('#info').fadeOut(2500);
+         }); //(2300);
+}
+
+$(document.body).ready(function(){
+      highlightElement('info');
+});
+
+// ]]>
+</script>

@@ -1,0 +1,17 @@
+<h3>Topics</h3>
+<a href="index.php" >Home</a><br />
+<a href="index.php?_r=feedback" >Feedback</a><br />
+<a href="index.php?_r=captcha" >Captcha</a><br />
+
+<?php
+require_once LIB . 'library.php';
+$login = gc('php_lab_status');
+if ($login == 'login') {
+	echo '<a href="index.php?_r=user/admin" >' . gc('php_lab_full_name') . '</a><br />';
+	echo '<a href="index.php?_r=user/logout" >Logout</a><br />';
+}else{
+	echo '<a href="index.php?_r=user/login" >Login</a><br />';
+	echo '<a href="index.php?_r=user/register" >Register</a><br />';
+}
+
+?>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>CS 130B MVC Web Framework</title>
+        <meta http-equiv="content-type"
+              content="text/html;charset=utf-8" />
+        <meta http-equiv="Content-Style-Type" content="text/css" />
+        <link rel="stylesheet" type="text/css" href="/~dputnam/stylesheets/130b.css" />
+        <script type="text/javascript" src="/~dputnam/javascripts/jquery.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <?php include LAYOUTS.'banner.html';?>
+            <!-- You can edit this file at <?php echo __FILE__?>. -->
+            <?php include 'navigation.html'?>
+            <div id="content" class="rounded"><?php echo $this->yield(); ?></div>
+            <?php include 'footer.html'?>
+        </div>
+    </body>
+</html>

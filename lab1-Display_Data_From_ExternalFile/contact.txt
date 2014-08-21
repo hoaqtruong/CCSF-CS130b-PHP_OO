@@ -1,0 +1,32 @@
+[name1]
+    fields1[] = "Joe Smith"
+    fields1[] = "6-0" 
+    fields1[] = "192lb"
+    fields1[] = "33"
+    fields1[] = "123 Main Street"
+    fields1[] = "Los Angeles"
+    fields1[] = "CA"
+    fields1[] = "888 888-8888"
+    fields1[] = "joesmith@la.com"
+
+[name2]
+    fields2[] = "Mary Jane"
+    fields2[] = "5-0" 
+    fields2[] = "112lb"
+    fields2[] = "21"
+    fields2[] = "321 Jambalaya Way "
+    fields2[] = "New Orleans"
+    fields2[] = "LA"
+    fields2[] = "111 111-1111"
+    fields2[] = "mjane@aol.com"
+
+[name3]
+    fields3[] = "Bill Gates"
+    fields3[] = "5-10" 
+    fields3[] = "162lb"
+    fields3[] = "55"
+    fields3[] = "1 Vista Drive"
+    fields3[] = "Seattle"
+    fields3[] = "WA"
+    fields3[] = "123 456-7890"
+    fields3[] = "billyg@hotmail.com"

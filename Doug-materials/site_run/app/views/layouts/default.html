@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>CS 130B MVC Web Framework</title>
+        <meta http-equiv="content-type"
+              content="text/html;charset=utf-8" />
+        <meta http-equiv="Content-Style-Type" content="text/css" />       
+        <style type="text/css">
+            /* Eric Meyer RESET */
+            html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent; } body { line-height: 1; } ol, ul { list-style: none; } blockquote, q { quotes: none; } blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; } /* remember to define focus styles! */ :focus { outline: 0; } /* remember to highlight inserts somehow! */ ins { text-decoration: none; } del { text-decoration: line-through; } /* tables still need 'cellspacing="0"' in the markup */ table { border-collapse: collapse; border-spacing: 0; }
+            /* End of RESET */
+
+            body {font-size: 16px;line-height:1.5;}
+            p {margin-bottom: 1em;}
+            #container { font-size: 1em;width:800px; margin:20px auto; border:solid 1px #ccc;}
+            #navigation { width: 100px; padding: 1em 1em;min-height:480px;float:left;}
+            #content {border-left:solid 1px #ccc;min-height: 480px;padding:1em;width:600px;float:right;}
+            #banner {text-align:center;padding-top:15px;background-color:#c7c7e7;height:90px;clear:bottom;}
+            #inner-banner {font-size: 40px;color:#003355;}
+            #footer {height:45px;padding-top: 15px;;color:#333;border-top:1px solid #ccc;text-align:center;clear:both;}
+            ul { list-style-type: square; padding: 1em; margin: 1em; }
+            li { padding-left:.5em; }
+        </style>
+    </head>
+    <body>
+      <div>
+        <div id="container">
+            <div id="banner">
+            <?php include LAYOUTS.'banner.html';?>
+            <!-- You can edit this file at <?php echo __FILE__?>. -->
+            </div>
+            <div id="navigation">
+            <?php include 'navigation.html';?>
+            </div>
+            <div id="content"><?php $this->yield(); ?></div>
+            <div id="footer">
+                <?php include 'footer.html';?>
+            </div>
+        </div>
+      </div>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<div id="login-container" >
+<p>
+<?php $show_error = false; ?>
+<?php if(isset($_SESSION['message'])) : ?>
+<?php $show_error = true; ?>
+<div id="alert" class="alert" style="display:none;"><?php echo message(); ?></div>
+<br />
+<?php endif; ?>
+<form action="" method="post" id="login-form" name="login-form">
+   <fieldset><legend>Log in</legend>
+      <p>
+      <label for="password">Password: </label> <input type="password" 
+      name="password" value=""  id="password" /> 
+      <input type="submit" name="submit" value="Go!" />
+      </p>
+      <p style="padding-left: 58px;">
+      <input type="checkbox" name="persist" value="1" /> Remember me!
+      </p>
+</fieldset>
+</form>
+</div>
+<?php if($show_error): ?>
+<script type="text/javascript">
+//<![CDATA[
+//$(document.body).ready(function(){$('login-container').fadeIn(300);});
+function highlightElement(id) {
+   id = "#"+id;
+   $('#alert').css('background-color','gold');
+   $('#alert').css('border', 'solid 4px #f88');
+   $('#alert').fadeIn(300);
+}
+   highlightElement('alert');
+<?php endif; ?>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('#button').click(function() {
+        $('#code').toggle('slow');
+    });
+
+});
+
+
+// ]]>
+</script>
+<a href="javascript:void(0);"  id="button">Source Code</a>
+<br />
+<br />
+<div id='code' style="padding:1em;border:solid 1px #888;background-color: #f8f8f8;color:goldenrod;display:none;font-size:14px;">
+   <h1>login.html</h1>
+   <?php highlight_file(__FILE__);?>
+   <h1>login.php</h1>
+   <?php highlight_file(dirname(__FILE__).'/../../models/login.php');?>
+</div>

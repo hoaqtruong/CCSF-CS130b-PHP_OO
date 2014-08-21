@@ -1,0 +1,28 @@
+    <form id="zem_textile_demo_form" method="post" action="" name="zem_textile_demo_form">
+      <h3>
+        Textile:
+      </h3>
+      <p>
+        <textarea id="textile" name="textile" rows="12" cols="50"></textarea>
+      </p>
+      <p style="text-align:right;">
+        <input type="submit" name="submit" value="Textile to XHTML" class="button">
+      </p>
+      <h3>
+        XHTML:
+      </h3>
+      <p>        
+<?php
+	require_once CONTROLLERS . 'textile_controller.php';
+	
+	if (isset($_POST['textile'])) {		
+		$textile_Controller = new Textile_Controller();
+		$textile_Controller->parse(stripcslashes($_POST['textile']));	
+		
+		//echo stripcslashes($_POST['textile']);
+		echo $textile_Controller->html;
+	}
+?>				
+		
+      </p>   
+    </form>  

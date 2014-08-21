@@ -1,0 +1,178 @@
+<h1>Register</h1>
+<?PHP
+    require_once(CLASSES . 'captcha.php');
+
+    // ConfigArray
+    $CAPTCHA_INIT = array(
+
+            // string: absolute path (with trailing slash!) to a php-writeable tempfolder which is also accessible via HTTP!
+            'tempfolder'     => ROOT . '/_tmp/',
+
+            // string: absolute path (in filesystem, with trailing slash!) to folder which contain your TrueType-Fontfiles.
+            'TTF_folder'     => ROOT . '/fonts/',
+
+            // mixed (array or string): basename(s) of TrueType-Fontfiles, OR the string 'AUTO'. AUTO scanns the TTF_folder for files ending with '.ttf' and include them in an Array.
+            // Attention, the names have to be written casesensitive!
+            //'TTF_RANGE'    => 'NewRoman.ttf',
+            //'TTF_RANGE'    => 'AUTO',
+            //'TTF_RANGE'    => array('actionj.ttf','bboron.ttf','epilog.ttf','fresnel.ttf','lexo.ttf','tetanus.ttf','thisprty.ttf','tomnr.ttf'),
+            'TTF_RANGE'    => 'AUTO',
+
+            'chars'          => 5,       // integer: number of chars to use for ID
+            'minsize'        => 20,      // integer: minimal size of chars
+            'maxsize'        => 30,      // integer: maximal size of chars
+            'maxrotation'    => 25,      // integer: define the maximal angle for char-rotation, good results are between 0 and 30
+            'use_only_md5'   => FALSE,   // boolean: use chars from 0-9 and A-F, or 0-9 and A-Z
+
+            'noise'          => TRUE,    // boolean: TRUE = noisy chars | FALSE = grid
+            'websafecolors'  => FALSE,   // boolean
+            'refreshlink'    => TRUE,    // boolean
+            'lang'           => 'en',    // string:  ['en'|'de'|'fr'|'it'|'fi'|'nl']
+            'maxtry'         => 3,       // integer: [1-9]
+
+            'badguys_url'    => '/',     // string: URL
+            'secretstring'   => 'A very, very secret string which is used to generate a md5-key!',
+            'secretposition' => 9        // integer: [1-32]
+    );
+
+// sanitize Inputs
+
+    if(isset($_GET) && is_array($_GET)) {
+        while(list($key, $value) = each($_GET))
+            $_GET["$key"] = strip_tags($value);
+    }
+    if(isset($_POST) && is_array($_POST)) {
+        while(list($key, $value) = each($_POST))
+            $_POST["$key"] = strip_tags($value);
+    }
+    if(isset($_COOKIES) && is_array($_COOKIES)) {
+        while(list($key, $value) = each($_COOKIES))
+            $_COOKIES["$key"] = strip_tags($value);
+    }
+
+    function my_orig_form($type,$varname,$default_value='')
+    {
+        $ret = '';
+        switch($type)
+        {
+            case 'text':
+                $value = isset($_POST[$varname]) ? $_POST[$varname] : $default_value;
+                $ret = "<input type=\"text\" name=\"$varname\" value=\"$value\">\n";
+                break;
+			case 'password':
+                $value = isset($_POST[$varname]) ? $_POST[$varname] : $default_value;
+                $ret = "<input type=\"password\" name=\"$varname\" value=\"$value\">\n";
+                break;
+            case 'checkbox':
+                $checked = isset($_POST[$varname]) || $default_value===1 ? ' checked' : '';
+                $ret = "<input type=\"Checkbox\" name=\"$varname\" value=\"1\"{$checked}>\n";
+                break;
+        }
+        return $ret;
+    }
+
+    function display_form_start()
+    {
+        $s = "<form action=\"index.php?_r=user/register\" method=\"post\">\n";
+        $s .= '<table border=1 width="80%" align="center">';
+        $s .= '<tr><td>Username</td><td>'.my_orig_form('text','user_name','').'</td></tr>';
+        $s .= '<tr><td>First name</td><td>'.my_orig_form('text','first_name','').'</td></tr>';
+        $s .= '<tr><td>Last name</td><td>'.my_orig_form('text','last_name','').'</td></tr>';
+        $s .= '<tr><td>E-Mail</td><td>'.my_orig_form('text','email','').'</td></tr>';
+        $s .= '<tr><td>Password</td><td>'.my_orig_form('password','password','').'</td></tr>';
+        echo $s;
+    }
+
+    function display_form_end()
+    {
+        $s  = "<tr><td>&nbsp;</td><td><input type=\"Submit\" name=\"SEND\" value=\"SEND\"></td></tr>";
+        $s .= '</table></form>';
+        echo $s;
+    }
+
+	function save_data() {
+		 // We'll try an exception here, just for fun.
+		try {				
+			if(!empty($_POST)) {
+				// Create a new user object. The user.php file
+				// is in the models directory.
+
+				$u = new User;
+				// We have to check whether the user alredy exists.
+				$res = $u->find_by_user_name(trim($_POST['user_name']));
+
+				// If $res is empty, the user does not exist, so 
+				// we have to create it. We'll use the $u instance.
+				if(empty($res)) {
+					$fields = $u->fields();
+					foreach($fields as $f) {
+						// The id and created_at timestamp are auto-generated.
+						if($f == 'id') continue;
+						if($f == 'created_at') continue;
+						$u->$f = trim(htmlentities($_POST[$f],ENT_QUOTES,'utf-8'));
+					}
+					if($u->save()) {
+						// If this transaction is successful, go to the registered
+						// page and print more information.
+						header('Location: ?_r=user/registered');
+						exit;
+					}
+				}
+				else {
+					// We shouldn't every end up here, but if we do, 
+					// throw an exception.
+					throw(new Exception('User is already registered'));
+				}			
+			}
+		} catch(Exception $e) {
+			header('Location: ?_r=user/already_registered');
+			exit;
+		}
+	}
+		
+    $valid_postvars = array('user_name','first_name','last_name','email','password');
+
+
+    //$captcha =& new hn_captcha($CAPTCHA_INIT, TRUE); // with debugging turned ON
+    $captcha =& new hn_captcha($CAPTCHA_INIT);       // normal use
+
+    switch($captcha->validate_submit())
+    {
+        // was submitted and has valid keys
+        case 1:
+			save_data();
+            break;
+
+        // was submitted, has bad keys and also reached the maximum try's
+        case 3:
+            //if(!headers_sent() && isset($captcha->badguys_url)) header('location: '.$captcha->badguys_url);
+            echo "<p><br>Reached the maximum try's of ".$captcha->maxtry." without success!";
+            break;
+
+        // was submitted with no matching keys, but has not reached the maximum try's
+        case 2:
+
+        // was not submitted, first entry
+        default:
+            // create captcha formpart
+            $form_captcha_part = $captcha->display_form_part('text_notvalid') . '<br>' .
+                                 $captcha->display_form_part('image') . '<br><br>' .
+                                 $captcha->display_form_part('input') . 
+                                 //$captcha->display_form_part('text') . '<br><br>' .
+                                 //$captcha->display_form_part('refresh_text') . ' ' .
+                                 $captcha->display_form_part('refresh_button') . '</td></tr><tr><td>' .
+								 '</td></tr>';
+            // output the whole form
+            display_form_start();
+            echo "<tr><td colspan=\"2\"><table border=0 width=\"100%\"><tr><td>";
+            echo '</td></tr><tr><td>';
+
+			// output form_part
+			echo $form_captcha_part;
+
+            echo '</td></tr></table>';
+            display_form_end();
+            break;
+
+    }	
+?>
